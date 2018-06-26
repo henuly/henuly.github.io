@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>BLOG</title>
+		<style type="text/css">
+			* {
+				font-family: "comic sans ms", "lucida sans unicode";
+			}
+		</style>
+		<link rel="Shortcut Icon" href="img/favicon.ico" />
+		<link rel="stylesheet" href="css/blog.css" type="text/css">
+		<script type="text/javascript">
+			function onload() {
+				var mainwidth = document.getElementById("main").offsetWidth;
+				if(mainwidth < 1230) {
+					document.getElementById("info").style.display = "none";
+				} else {
+					document.getElementById("info").style.display = "block";
+				}
+			}
+		</script>
+	</head>
+
+	<body onload="onload()">
+		<iframe id="nav" frameborder="0" marginheight="0" marginwidth="0" src="nav.html" width="100%" height="auto"></iframe>
+		<div id="main">
+			<div id="info">
+				<div id="info-logo"></div>
+				<div id="info-name">Tong丶Stark</div>
+				<div id="info-introduce">HENU ACMer<br />python fan</div>
+				<div id="info-link">
+					<a href="http://henuly.top/" id="blog"></a>
+					<p>BLOG</p>
+					<a href="https://blog.csdn.net/Tony5t4rk" id="csdn"></a>
+					<p>CSDN</p>
+					<a href="https://github.com/Tony5t4rk" id="github"></a>
+					<p>Github</p>
+				</div>
+			</div>
+			<div id="blog-article">
+				<div id="article-1" class="article">
+					<h1><a href='article.html?link=_1'>用python和pygame写一个简单的俄罗斯方块</a></h1>
+					<p>Github: Tetris [crayon-5b30f16242f0a245101330/] 运行结果</p>
+					<p class="time">2018-6-23</p>
+				</div>
+				<div id="article-2" class="article">
+					<h1><a href="article.html?link=_2">用python和pygame写一个简单的贪吃蛇游戏</a></h1>
+					<p>GitHub Snake [crayon-5b30f8f19fce5377987126/] 运行结果</p>
+					<p class="time">2018-6-22</p>
+				</div>
+				<div id="article-3" class="article">
+					<h1><a href="article.html?link=_3">python爬取豆瓣电影Top250</a></h1>
+					<p>[crayon-5b30fa42f03b2415211006/] 运行结果:</p>
+					<p class="time">2018-6-15</p>
+				</div>
+				<div id="article-4" class="article">
+					<h1><a href="article.html?link=_4">python爬取HDU所有题目</a></h1>
+					<p>还没有爬具体题目信息，待更新。 [crayon-5b30fbd52c50f931764027/] 运行结果:</p>
+					<p class="time">2018-6-14</p>
+				</div>
+				<div id="article-5" class="article">
+					<h1><a href="article.html?link=_5">python爬取HDU所有题目</a></h1>
+					<p>还没有爬具体题目信息，待更新。 [crayon-5b30fbd52c50f931764027/] 运行结果:</p>
+					<p class="time">2018-6-14</p>
+				</div>
+				<div id="article-6" class="article">
+					<h1><a href="article.html?link=_6">HDU 3549 Flow Problem</a></h1>
+					<p>题目: Network flow is a well-known difficult problem for […]</p>
+					<p class="time">2018-6-12</p>
+				</div>
+				<div id="article-7" class="article">
+					<h1><a href="article.html?link=_7">ZZNUOJ 2107 : 山区修路</a></h1>
+					<p>题目: SNJ位于HB省西部一片群峰耸立的高大山地，横亘于A江、B水之间，方圆数千平方公里，相传上古的神医在此 […]</p>
+					<p class="time">2018-6-5</p>
+				</div>
+				<div id="article-8" class="article">
+					<h1><a href="article.html?link=_8">ZZNUOJ 2112 : Attack City and Capture Territory</a></h1>
+					<p>题目: The Three Kingdoms period was a relatively famous p […]</p>
+					<p class="time">2018-6-3</p>
+				</div>
+				<div id="article-9" class="article">
+					<h1><a href="article.html?link=_9">HDU 6287 口算训练</a></h1>
+					<p>题目: 小Q非常喜欢数学，但是他的口算能力非常弱。因此他找到了小T，给了小T一个长度为n的正整数序列a1,a2 […]</p>
+					<p class="time">2018-5-29</p>
+				</div>
+				<div id="article-10" class="article">
+					<h1><a href="article.html?link=_0">HDU 1147 Pick-up sticks</a></h1>
+					<p>题目: Stan has n sticks of various length. He throws them […]</p>
+					<p class="time">2018-5-18</p>
+				</div>
+			</div>
+		</div>
+		<iframe id="footer" frameborder="0" marginheight="0" marginwidth="0" src="footer.html" width="100%" height="auto"></iframe>
+		<script type="text/javascript" src="js/blog.js"></script>
+	</body>
+
+</html>

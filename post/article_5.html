@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				font-family: "comic sans ms", "lucida sans unicode";
+			}
+		</style>
+		<link rel="stylesheet" href="../css/article-detail.css">
+		<link rel="stylesheet" href="../highlight/styles/solarized-light.css" type="text/css">
+		<script src="../js/jQuery-3.3.1.js" charset="utf-8"></script>
+		<script src="../highlight/highlight.pack.js" charset="utf-8"></script>
+		<script>
+			hljs.initHighlightingOnLoad();
+		</script>
+	</head>
+
+	<body>
+		<h1>python爬取HDU所有题目</h1>
+		<p id="time">2018-06-14&nbsp;/&nbsp;36&nbsp;/&nbsp;0</p>
+		<p>还没有爬具体题目信息，待更新。</p>
+		<pre>
+            <code class="py"># -*- coding:utf-8 -*-
+
+# 爬取HDU题目保存到本地Excel表格
+import requests
+from bs4 import BeautifulSoup
+import xlsxwriter
+
+# 保存题目信息二维数组
+AllProblem = []
+# 创建Excel文件"HDUproblem.xlsx"
+workxlsx = xlsxwriter.Workbook('HDUproblem.xlsx')
+# 创建一个表单
+worksheet = workxlsx.add_worksheet()
+# 设置表格格式
+worksheet.set_column(1, 1, 74)
+ratio_format = workxlsx.add_format({'num_format':'## %'})
+title_format = workxlsx.add_format({'bold':True, 'align': 'center', 'font_size': 20, 'font_color': 'red'})
+head_format = workxlsx.add_format({'bold':True})
+worksheet.merge_range(0, 0, 0, 2, 'HDU Online Judge Problem', title_format)
+
+# 获取网页文本源代码
+def GetHtmlText(url):
+    try:
+        r = requests.get(url)
+        r.raise_for_status()
+        # r.encoding = 'utf-8'
+        return r.text
+    except:
+        return ''
+
+# 使用BeautifulSoup根据树状标签寻找需要爬取的信息
+def FillProblemList(soup):
+    OneProblemList = []
+    # 题目信息在这里保存
+    table = soup.find('table', {'class': {'table_text'}})
+    ProblemList = table.get_text()
+    ProblemList = ProblemList[47:]
+    TempOnePageProblemList = []
+    # 将每道题的信息分开保存
+    TempOnePageProblemList = ProblemList.split(';')
+    # HDU每页并不是100道题，中间会少几道
+    PageProblemNum = len(TempOnePageProblemList)
+    for Problem in range(PageProblemNum - 1):
+        TempOneProblemList = TempOnePageProblemList[Problem][4:-1]
+        # 将题目每个信息分开
+        OneProblemList = TempOneProblemList.split(',')
+        OneProblemList[2] = OneProblemList[2][1:-1]
+        # 循环整理数据（计算通过率），题目名称有可能含有未知个数','而被分开
+        flag = 1
+        while flag:
+            try:
+                OneProblemList[3] = float(OneProblemList[3]) / float(OneProblemList[4])
+                flag = 0
+            except:
+                OneProblemList[2] = OneProblemList[2] + OneProblemList[3]
+                del OneProblemList[3]
+                try:
+                    OneProblemList[3] = float(OneProblemList[3]) / float(OneProblemList[4])
+                    flag = 0
+                except:
+                    pass
+        OneProblemList.pop()
+        AllProblem.append(OneProblemList)
+
+def main(pages):
+    # 表头
+    SheetHead = ['题号', '', '题目', '正确率']
+    headcol = 0
+    for head in range(len(SheetHead)):
+        if head == 1:
+            continue
+        worksheet.write(1, headcol, SheetHead[head], head_format)
+        headcol += 1
+    # 截止到2018年6月14日共53页题目
+    for page in range(1, pages + 1):
+        url = 'http://acm.hdu.edu.cn/listproblem.php?vol=' + str(page)
+        html = GetHtmlText(url)
+        soup = BeautifulSoup(html, 'html.parser')
+        FillProblemList(soup)
+    # 将信息写入表格
+    row = 2
+    for Problem in AllProblem:
+        col = 0;
+        for i in range(0, len(Problem)):
+            if i == 1:
+                continue
+            elif i == 3:
+                worksheet.write(row, col, Problem[i])
+            worksheet.write(row, col, Problem[i], ratio_format)
+            col += 1
+        row += 1
+    workxlsx.close()
+
+if __name__ == '__main__':
+    main(53)
+            </code>
+        </pre>
+		<h2>运行结果</h2>
+		<img src="http://p980l5uv6.bkt.clouddn.com/TIM%E5%9B%BE%E7%89%8720180614205410.png" alt="运行结果" width="100%">
+	</body>
+
+</html>

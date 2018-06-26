@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				font-family: "comic sans ms", "lucida sans unicode";
+			}
+		</style>
+		<link rel="stylesheet" href="../css/article-detail.css">
+		<link rel="stylesheet" href="../highlight/styles/solarized-light.css" type="text/css">
+		<script src="../js/jQuery-3.3.1.js" charset="utf-8"></script>
+		<script src="../highlight/highlight.pack.js" charset="utf-8"></script>
+		<script>
+			hljs.initHighlightingOnLoad();
+		</script>
+	</head>
+
+	<body>
+		<h1>python爬取周杰伦豆瓣图片库所有图片</h1>
+		<p id="time">2018-06-15&nbsp;/&nbsp;37&nbsp;/&nbsp;0</p>
+		<pre>
+            <code># -*- utf-8 -*-
+
+import os
+import requests
+from bs4 import BeautifulSoup
+
+def GetHtmlText(url):
+    try:
+        r = requests.get(url)
+        r.raise_for_status()
+        r.encoding = 'utf-8'
+        return r.text
+    except:
+        return ""
+
+def main(pages):
+    # 创建本地存储图片文件夹
+    FilePath = os.getcwd() + '\pictureJay\\'
+    if not os.path.exists(FilePath):
+        os.makedirs(FilePath)
+    # 图片页数
+    TempPage = pages
+    # 命名序号
+    FileNum = 1
+    for page in range(pages):
+        url = 'https://movie.douban.com/celebrity/1048000/photos/?type=C&start=' + str(page * 30) + '&sortby=like&size=a&subtype=a'
+        html = GetHtmlText(url)
+        soup = BeautifulSoup(html, 'html.parser')
+        uls = soup.find_all('ul', {"class": "poster-col3 clearfix"})
+        for ul in uls:
+            imgs = ul.find_all('img')
+            for img in imgs:
+                imgurl = img['src']
+                imgcontent = requests.get(imgurl).content
+                filename = str(FileNum) + '.jpg'
+                with open(os.getcwd() + '/pictureJay/' + filename, 'wb') as wf:
+                    wf.write(imgcontent)
+                FileNum += 1
+
+if __name__ == '__main__':
+    main(9)
+            </code>
+        </pre>
+		<h2>运行结果</h2>
+		<img src="http://p980l5uv6.bkt.clouddn.com/TIM%E5%9B%BE%E7%89%8720180615012620.png" alt="运行结果" width="100%">
+	</body>
+
+</html>

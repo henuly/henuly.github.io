@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>ARTICLE</title>
+		<style type="text/css">
+			* {
+				font-family: "comic sans ms", "lucida sans unicode";
+			}
+		</style>
+		<link rel="Shortcut Icon" href="img/favicon.ico" />
+		<link rel="stylesheet" href="css/article.css">
+		<script src="js/jQuery-3.3.1.js" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var url = window.location.href;
+				var link = url.substr(url.length - 2, 2);
+				if(link == "_0") {
+					link = "_10";
+				}
+				var src = "post/article" + link + ".html"
+				$("#article").attr("src", src);
+			})
+		</script>
+		<script type="text/javascript">
+			function onload() {
+				var mainwidth = document.getElementById("main").offsetWidth;
+				if(mainwidth < 1450) {
+					document.getElementById("info").style.display = "none";
+				} else {
+					document.getElementById("info").style.display = "block";
+				}
+			}
+		</script>
+	</head>
+
+	<body onload="onload()">
+		<iframe id="nav" frameborder="0" marginheight="0" marginwidth="0" src="nav.html" width="100%" height="auto"></iframe>
+		<div id="main">
+			<div id="info">
+				<div id="info-logo"></div>
+				<div id="info-name">Tong丶Stark</div>
+				<div id="info-introduce">HENU ACMer<br />python fan</div>
+				<div id="info-link">
+					<a href="http://henuly.top/" id="blog"></a>
+					<p>BLOG</p>
+					<a href="https://blog.csdn.net/Tony5t4rk" id="csdn"></a>
+					<p>CSDN</p>
+					<a href="https://github.com/Tony5t4rk" id="github"></a>
+					<p>Github</p>
+				</div>
+			</div>
+			<div id="blog-article">
+				<iframe id="article" width="90%" height="2800"></iframe>
+			</div>
+		</div>
+		<iframe id="footer" frameborder="0" marginheight="0" marginwidth="0" src="footer.html" width="100%" height="auto"></iframe>
+		<script src="js/article.js" charset="utf-8"></script>
+	</body>
+
+</html>

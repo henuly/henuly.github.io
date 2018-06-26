@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				font-family: "comic sans ms", "lucida sans unicode";
+			}
+		</style>
+		<link rel="stylesheet" href="../css/article-detail.css">
+		<link rel="stylesheet" href="../highlight/styles/solarized-light.css" type="text/css">
+		<script src="../js/jQuery-3.3.1.js" charset="utf-8"></script>
+		<script src="../highlight/highlight.pack.js" charset="utf-8"></script>
+		<script>
+			hljs.initHighlightingOnLoad();
+		</script>
+	</head>
+
+	<body>
+		<h1>ZZNUOJ 2107 : 山区修路</h1>
+		<p id="time">2018-06-05&nbsp;/&nbsp;20&nbsp;/&nbsp;0</p>
+		<h2>题目:</h2>
+		<p>SNJ位于HB省西部一片群峰耸立的高大山地，横亘于A江、B水之间，方圆数千平方公里，相传上古的神医在此搭架上山采药而得名。景区山峰均在海拔3000米以上，堪称"华中屋脊"。SNJ是以秀绿的亚高山自然风光，多样的动植物种，人与自然和谐共存为主题的森林生态区。<br /> SNJ处于中国地势第二阶梯的东部边缘，由大巴山脉东延的余脉组成中高山地貌，区内山体高大，高低不平。 交通十分不便。<br /> 最近，HB省决定修一条从YC市通往SNJ风景区的高速公路。经过勘测分析，途中需要经过高度分别为H
+			<sub>1</sub>,H<sub>2</sub>，……,H<sub>n</sub>的N个山区。由于高低不平，除正常的修路开支外，每段还要多出高度差|H<sub>i</sub> - H<sub>i</sub>-1|&times;X万元的斜坡费用。Dr. Kong 决定通过填高一些区域的高度来降低总的费用。当然填高也是需要一些费用的。每填高Y单位，需要付出Y<sup>2</sup>万元费用。<br /> 你能否帮Dr. Kong做出一个规划，通过部分填高工程改造，使得总的费用降下来。</p>
+		<h2>Input:</h2>
+		<p>第一行：T表示以下有T组测试数据（ 1≤ T ≤8 ）<br /> 对每组测试数据，
+			<br /> 第一行：N X （2 ≤ N ≤100,000 1≤ X ≤100）<br /> 第二行：N个整数，分别表示N个区域的高度H
+			<sub>i</sub>(1
+			<=H<sub>i</sub>
+				<=100,i=1…. n)</p>
+					<h2>Output:</h2>
+					<p>F对每组测试数据，输出占一行，一个整数，即经过部分填高工程改造后的最少费用。</p>
+					<h2>Sample Input:</h2>
+					<pre>1
+5 2
+2 3 5 1 4
+</pre>
+					<h2>Sample Output:</h2>
+					<pre>15
+        </pre>
+					<h3><a href="http://acm.hi-54.com/problem.php?pid=2107">题目链接</a></h3>
+					<p>2018第十一届河南省赛C动态规划题目，数组dp[i][j]表示第i座山高度为j的状态下，前i座山总的最少话费，dp[i][j]只和dp[i-1][k]相关，计算出第n座山在所有高度下的最小花费，其中最小值即为结果。</p>
+					<h2>AC代码:</h2>
+					<pre>
+            <code class="c++">#include &lt;bits/stdc++.h>
+using namespace std;
+#define mem(a,b) memset(a,b,sizeof(a))
+#define pb push_back
+#define mp make_pair
+typedef long long ll;
+typedef unsigned long long ull;
+typedef pair&lt;int,int> P;
+const int INF = 0x3f3f3f3f;
+const int maxn = 1e5+5;
+const int mod = 1e9+7;
+const double eps = 1e-8;
+const double pi = asin(1.0)*2;
+const double e = 2.718281828459;
+void fre() {
+    freopen("C_IN.txt", "r", stdin);
+    //freopen("out.txt", "w", stdout);
+}
+
+int dp[maxn][105];
+
+int main(){
+    //fre();
+    int t;
+    scanf("%d", &t);
+    while (t--) {
+        int ans, n, x;
+        ans = INF;
+        scanf("%d%d", &n, &x);
+        vector&lt;int> h(n);
+        int _max = 0;
+        for (int i = 0; i < n; ++i) {
+            scanf("%d", &h[i]);
+            _max = max(_max, h[i]);
+        }
+        for (int i = h[0]; i <= _max; ++i) {
+            dp[0][i] = (i - h[0]) * (i - h[0]);
+        }
+        for (int i = 1; i < n; ++i) {
+            // 第i座山的高度为j
+            for (int j = h[i]; j <= _max; ++j) {
+                dp[i][j] = INF;
+                // k为第i-1座山的高度
+                for (int k = h[i - 1]; k <= _max; ++k) {
+                    dp[i][j] = min(abs(j - k) * x + dp[i - 1][k], dp[i][j]);
+                }
+                dp[i][j] += (j - h[i]) * (j - h[i]);
+            }
+        }
+        for (int i = h[n - 1]; i <= _max; ++i) {
+            ans = min(ans, dp[n - 1][i]);
+        }
+        printf("%d\n", ans);
+    }
+    return 0;
+}
+            </code>
+        </pre>
+	</body>
+
+</html>

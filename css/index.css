@@ -1,0 +1,141 @@
+body {
+	overflow: hidden;
+	position: relative;
+	height: 999px;
+	background-color: black;
+}
+
+#nav {
+	height: 40px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 10;
+}
+
+#footer {
+	height: 40px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 10;
+}
+
+#wrap {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+}
+
+.page {
+	text-align: center;
+	height: 999px;
+}
+
+.page>p {
+	position: relative;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-moz-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	-o-transform: translateY(-50%);
+	transform: translateY(-50%);
+	color: white;
+	font-size: 100px;
+}
+
+.page1 {
+	background-image: url(../img/welcome-bg-1.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center 0;
+}
+
+.page2 {
+	background-image: url(../img/welcome-bg-2.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center 0;
+}
+
+.page3 {
+	background-image: url(../img/welcome-bg-3.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center 0;
+}
+
+.page4 {
+	background-image: url(../img/welcome-bg-4.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center 0;
+}
+
+.menu {
+	position: fixed;
+	top: 50%;
+	right: 50px;
+	-webkit-transform: translateY(-50%);
+	-moz-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	-o-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+.menu>li {
+	display: block;
+	height: 40px;
+	width: 40px;
+	border: 2px solid rgba(255, 255, 255, 0.4);
+	margin-bottom: 8px;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+}
+
+.menu>li.active {
+	background: rgba(255, 255, 255, 0.4);
+}
+
+#info {
+	width: 700px;
+	height: 700px;
+	z-index: 10;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -350px;
+	margin-left: -350px;
+	box-shadow: 0 5px 40px rgb(217, 217, 217);
+	border: 0.3px solid rgb(217, 217, 217);
+	border-radius: 50px;
+	background-color: rgba(217, 217, 217, 0.2);
+}
+
+#logo {
+	width: 512px;
+	height: 512px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -330px;
+	margin-left: -256px;
+	background-image: url(../img/logo-white-512.png);
+}
+
+#name {
+	width: 500px;
+	height: 100px;
+	position: absolute;
+	bottom: 0px;
+	left: 50%;
+	margin-left: -250px;
+	margin-bottom: 20px;
+	font-size: 72px;
+	text-align: center;
+	color: white;
+	text-shadow: white 0px 0px 5px, white 0px 0px 10px, white 0px 0px 15px, #a3a3a3a3 0px 0px 20px, #a3a3a3a3 0px 0px 30px, #a3a3a3a3 0px 0px 40px, #a3a3a3a3 0px 0px 50px, #a3a3a3a3 0px 0px 75px;
+	letter-spacing: 5px;
+}

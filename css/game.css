@@ -1,0 +1,33 @@
+html,
+body {
+	height: 100%;
+	margin: 0;
+}
+
+body {
+	background-image: url(../img/gamebg.jpg);
+	background-size: cover;
+	background-position: center 0;
+}
+
+#nav {
+	position: fixed;
+	top: 0;
+	z-index: 10;
+}
+
+#footer {
+	position: fixed;
+	bottom: 0;
+}
+
+#canvas {
+	box-shadow: 0 5px 40px black;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -250px;
+	margin-left: -400px;
+	border: 0.5px solid black;
+	border-radius: 25px;
+}

@@ -1,0 +1,96 @@
+html {
+	margin: 0;
+	height: 100%
+}
+
+body {
+	margin: 0;
+	height: 100%;
+	background: #fff;
+}
+
+#nav {
+	position: fixed;
+	top: 0;
+	height: 40px;
+}
+
+#footer {
+	position: fixed;
+	bottom: 0;
+	height: 40px;
+}
+
+.all {
+	display: block;
+	width: 100%;
+	height: calc(100% - 40px);
+	position: absolute;
+	top: 40px;
+	left: 0;
+	min-height: 580px;
+}
+
+canvas {
+	display: block;
+	width: 100%;
+	height: calc(100% - 40px);
+	position: absolute;
+	top: 0px;
+	left: 0;
+	z-index: -10;
+}
+
+#reg-log-form {
+	width: 450px;
+	height: 500px;
+	margin: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	box-shadow: 0 5px 40px rgb(193, 193, 193);
+	border-radius: 40px;
+	background-color: white;
+}
+
+#web {
+	font-size: 45px;
+	margin-bottom: 0;
+}
+
+#subtitle {
+	margin-top: 25px;
+	font-size: 22px;
+	color: #8f4b2e;
+	line-height: 35px;
+}
+
+.input {
+	border: 0;
+	border-bottom: 3px solid #f2eada;
+	display: block;
+	width: 200px;
+	height: 30px;
+	margin: 0 auto;
+	margin-top: 20px;
+}
+
+#register-input {
+	border: 0;
+	background-color: #d3d7d4;
+	font-size: 16px;
+	margin-top: 60px;
+}
+
+#register-input:hover {
+	background-color: #9d9087;
+}
+
+#Tnumalert {
+	color: red;
+	text-align: center;
+	margin-top: 10px;
+	display: none;
+}

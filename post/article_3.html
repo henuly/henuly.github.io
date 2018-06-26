@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				font-family: "comic sans ms", "lucida sans unicode";
+			}
+		</style>
+		<link rel="stylesheet" href="../css/article-detail.css">
+		<link rel="stylesheet" href="../highlight/styles/solarized-light.css" type="text/css">
+		<script src="../js/jQuery-3.3.1.js" charset="utf-8"></script>
+		<script src="../highlight/highlight.pack.js" charset="utf-8"></script>
+		<script>
+			hljs.initHighlightingOnLoad();
+		</script>
+	</head>
+
+	<body>
+		<h1>python爬取豆瓣电影Top250</h1>
+		<p id="time">2018-06-15&nbsp;/&nbsp;20&nbsp;/&nbsp;0</p>
+		<pre>
+            <code># -*- utf-8 -*-
+
+import os
+
+import requests
+import xlsxwriter
+from bs4 import BeautifulSoup
+
+# 存储影片信息二维数组
+MovieInfo = []
+# 创建Excel文件"DouBanTop.xlsx"
+workxlsx = xlsxwriter.Workbook('DouBanTop.xlsx')
+# 创建一个表单
+worksheet = workxlsx.add_worksheet()
+# 设置表格格式
+worksheet.set_row(0, 60)
+worksheet.set_row(1, 60)
+worksheet.set_column(1, 1, 35)
+worksheet.set_column(2, 2, 78)
+head_format = workxlsx.add_format({'bold': True, 'align': 'center', 'valign': 'vcenter'})
+title_format = workxlsx.add_format({'bold': True, 'align': 'center', 'valign': 'vcenter', 'font_size': 20, 'font_color': 'Green'})
+text_format = workxlsx.add_format({'align': 'center', 'valign': 'vcenter', 'font_size': 14})
+worksheet.merge_range(1, 1, 1, 2, '')
+worksheet.merge_range(0, 0, 0, 3, 'DouBan Movie Top 250', title_format)
+
+# 获取网页文本源代码
+def GetHtmlText(url):
+    try:
+        r = requests.get(url)
+        r.raise_for_status()
+        r.encoding = 'utf-8'
+        return r.text
+    except:
+        return ''
+
+# 提取影片信息
+def FindInformation(soup):
+    ols = soup.find_all('ol', {'class': 'grid_view'})
+    for ol in ols:
+        lis = ol.find_all('li')
+        for li in lis:
+            OneMovieInfo = []
+            MovieName = ''
+            picdiv = li.find('div', {'class': 'pic'})
+            MovieRank = int(picdiv.find('em').string)
+            OneMovieInfo.append(MovieRank)
+            img = picdiv.find('img')
+            imgurl = img['src']
+            ImgName = str(MovieRank) + '.jpg'
+            OneMovieInfo.append(ImgName)
+            imgcontent = requests.get(imgurl).content
+            with open(os.getcwd() + '/' + ImgName, 'wb') as wf:
+                wf.write(imgcontent)
+            infodiv = li.find('div', {'class': 'hd'})
+            spans = infodiv.find_all('span', {'class': 'title'})
+            for span in range(len(spans)):
+                if span == 0:
+                    if len(spans) == 2:
+                        MovieName += spans[span].string + ' / '
+                    else:
+                        MovieName += spans[span].string
+                else:
+                    MovieName += spans[span].string[3:]
+            OneMovieInfo.append(MovieName)
+            ratingspan = li.find('span', {'class': 'rating_num'})
+            OneMovieInfo.append(float(ratingspan.string))
+            MovieInfo.append(OneMovieInfo)
+
+if __name__ == '__main__':
+    # 表头
+    SheetHead = ['排名', '电影', '', '评分']
+    for head in range(len(SheetHead)):
+        if head == 2:
+            continue
+        worksheet.write(1, head, SheetHead[head], head_format)
+    # 共十页内容，每页25部影片
+    pages = 10
+    for page in range(pages):
+        url = 'https://movie.douban.com/top250?start=' + str(page * 25) + '&filter='
+        html = GetHtmlText(url)
+        soup = BeautifulSoup(html, 'html.parser')
+        FindInformation(soup)
+    # 将信息写入表格
+    for movie in range(len(MovieInfo)):
+        worksheet.set_row(movie + 2, 290)
+        for info in range(len(MovieInfo[movie])):
+            if info == 1:
+                worksheet.insert_image(movie + 2, info, MovieInfo[movie][info])
+                continue
+            worksheet.write(movie + 2, info, MovieInfo[movie][info], text_format)
+    workxlsx.close()
+            </code>
+        </pre>
+		<h2>运行结果</h2>
+		<img src="http://p980l5uv6.bkt.clouddn.com/TIM%E5%9B%BE%E7%89%8720180615223243.png" alt="运行结果" width="100%">
+	</body>
+
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				font-family: "comic sans ms", "lucida sans unicode";
+			}
+		</style>
+		<link rel="stylesheet" href="../css/article-detail.css">
+		<link rel="stylesheet" href="../highlight/styles/solarized-light.css" type="text/css">
+		<script src="../js/jQuery-3.3.1.js" charset="utf-8"></script>
+		<script src="../highlight/highlight.pack.js" charset="utf-8"></script>
+		<script>
+			hljs.initHighlightingOnLoad();
+		</script>
+	</head>
+
+	<body>
+		<h1>ZZNUOJ 2112 : Attack City and Capture Territory</h1>
+		<p id="time">2018-06-03&nbsp;/&nbsp;9&nbsp;/&nbsp;0</p>
+		<h2>题目:</h2>
+		<p>The Three Kingdoms period was a relatively famous period in the history of China. From the Battle of Chibi (AD 211) to the reunification of China in the Western Jin Dynasty(AD 280). During the period, Cao's Wei State, Liu's Shu State, and Sun's Wu Guo's Three Kingdoms stood together. Therefore, it was called the Three Kingdoms period.<br /> In the last years of the Eastern Han Dynasty, Dong_ Z specialized in power , the coalition forces of the world's princes crusade against each other. Among them, Liu_B and Sun_Q, who are school students, also participated in the crusade.<br /> In AD 215 , Liu_B and Sun_Q simultaneously attacked JingZhou and directly threatened Dong Z's city. There were N firepower points on the high wall, each fire point with different s trength Xi . Liu_B and Sun_Q looked at the high walls and the strong gates, they did not attack the city traightaway. They negotiate to attack firepower point alternately. Who breaks through the last firepower point, he will win the city.<br /> Because of limited weaponry, weapons of each side can only attack one firepower at a time. But they can control whether completely destroy this firepower point or weaken the strength of firepower point.<br /> Liu_B has a strong think-tank. After calculation, he finds out who will attack first , who will more likely win the city .</p>
+		<h2>Input:</h2>
+		<p>The first line of the input contains one integer T, which is the number of test cases (1
+			<=T<=10). Each test case specifies:<br /> Line 1: N ( 1 ≤ N ≤ 100 )<br /> Line 2: X1 X2… Xn ( 1
+			<=X i<=1000 i=1…. n)</p>
+				<h2>Output:</h2>
+				<p>For each test case , print “Liu_B is sure to win.” Or “Liu_B is not sure to win.” , suppose Liu_B first attacks.</p>
+				<h2>Sample Input:</h2>
+				<pre>3
+2
+1 3
+2
+3 3
+5
+1 2 3 4 5
+</pre>
+				<h2>Sample Output:</h2>
+				<pre>Liu_B is sure to win.
+Liu_B is not sure to win.
+Liu_B is sure to win.
+        </pre>
+				<h3><a href="http://acm.hi-54.com/problem.php?pid=2112">题目链接</a></h3>
+				<p>2018河南省赛尼姆博弈。</p>
+				<h2>AC代码:</h2>
+				<pre>
+            <code class="c++">#include &lt;bits/stdc++.h>
+using namespace std;
+#define mem(a,b) memset(a,b,sizeof(a))
+#define pb push_back
+typedef long long ll;
+typedef unsigned long long ull;
+typedef pair&lt;int,int> P;
+const int INF = 0x3f3f3f3f;
+const int maxn = 1e2+5;
+const int mod = 1e9+7;
+const double eps = 1e-8;
+const double pi = asin(1.0)*2;
+const double e = 2.718281828459;
+void fre() {
+    freopen("in.txt", "r", stdin);
+    //freopen("out.txt", "w", stdout);
+}
+
+int t;
+int n;
+int a[maxn];
+int temp;
+
+int main(){
+    //fre();
+    scanf("%d", &t);
+    while(t--) {
+        temp = 0;
+        scanf("%d", &n);
+        for (int i = 0; i < n; ++i) {
+            scanf("%d", &a[i]);
+            temp ^= a[i];
+        }
+        if (temp) {
+            printf("Liu_B is sure to win.\n");
+        }
+        else {
+            printf("Liu_B is not sure to win.\n");
+        }
+    }
+    return 0;
+}
+            </code>
+        </pre>
+	</body>
+
+</html>

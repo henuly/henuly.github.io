@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				font-family: "comic sans ms", "lucida sans unicode";
+			}
+		</style>
+		<link rel="stylesheet" href="../css/article-detail.css">
+		<link rel="stylesheet" href="../highlight/styles/solarized-light.css" type="text/css">
+		<script src="../js/jQuery-3.3.1.js" charset="utf-8"></script>
+		<script src="../highlight/highlight.pack.js" charset="utf-8"></script>
+		<script>
+			hljs.initHighlightingOnLoad();
+		</script>
+	</head>
+
+	<body>
+		<h1>HDU 3549 Flow Problem</h1>
+		<p id="time">2018-06-12&nbsp;/&nbsp;20&nbsp;/&nbsp;0</p>
+		<h2>题目:</h2>
+		<p>Network flow is a well-known difficult problem for ACMers. Given a graph, your task is to find out the maximum flow for the weighted directed graph.</p>
+		<h2>Input:</h2>
+		<p>The first line of input contains an integer T, denoting the number of test cases. For each test case, the first line contains two integers N and M, denoting the number of vertexes and edges in the graph. (2
+			<=N <=1 5, 0 <=M <=1 000) Next M lines, each line contains three integers X, Y and C, there is an edge from X to Y and the capacity of it is C. (1 <=X , Y <=N , 1 <=C <=1 000)</p>
+				<h2>Output:</h2>
+				<p>For each test cases, you should output the maximum flow from source 1 to sink N.</p>
+				<h2>Sample Input:</h2>
+				<pre>2
+3 2
+1 2 1
+2 3 1
+3 3
+1 2 1
+2 3 1
+1 3 1</pre>
+				<h2>Sample Output:</h2>
+				<pre>Case 1: 1
+Case 2: 2</pre>
+				<h3><a href="http://acm.hdu.edu.cn/showproblem.php?pid=3549">题目链接</a></h3>
+				<p>裸网络流最大流模板题。<br /> 网络流基础知识及最大流求解思路:
+				</p>
+				<h3><a href="https://www.cnblogs.com/luweiseu/archive/2012/07/14/2591573.html">数据结构与算法分析 - 网络流入门（Network Flow）</a></h3>
+				<h2>AC代码:</h2>
+				<pre>
+            <code class="c++">// Ford-Fulkerson算法
+#include &lt;bits/stdc++.h>
+using namespace std;
+#define mem(a,b) memset(a,b,sizeof(a))
+#define pb push_back
+#define mp make_pair
+typedef long long ll;
+typedef unsigned long long ull;
+typedef pair&lt;int,int> P;
+const int INF = 0x3f3f3f3f;
+const int maxn = 20;
+const int mod = 1e9+7;
+const double eps = 1e-8;
+const double pi = asin(1.0)*2;
+const double e = 2.718281828459;
+void fre() {
+    freopen("in.txt", "r", stdin);
+    //freopen("out.txt", "w", stdout);
+}
+
+int t;
+int n, m;
+int x, y, c;
+// 起点、终点
+int st, en;
+// 增广路径流量
+int flow;
+// 最大流结果
+int ans;
+// 顶点标记数组
+bool vis[maxn];
+// 残留网
+int maze[maxn][maxn];
+
+// DFS寻找增广路径
+int dfs(int u, int FindFlow) {
+    // 若找到汇点返回此增广路径中
+    if (u == en) {
+        return FindFlow;
+    }
+    // 若访问过此顶点则返回
+    if (vis[u]) {
+        return 0;
+    }
+    // 标记此顶点为已访问顶点
+    vis[u] = 1;
+    // 枚举寻找下一个顶点
+    for (int i = 1; i <= n; ++i) {
+        // 跳过两顶点之间容量为0的顶点
+        if (maze[u][i]) {
+            // 从i点寻找路径，并返回路径流量
+            int LastLineFlow = dfs(i, FindFlow < maze[u][i] ? FindFlow : maze[u][i]);
+            // 跳过路径流量为0的点
+            if (LastLineFlow == 0) {
+                continue;
+            }
+            // 找到增广路径后更新残留网
+            maze[u][i] -= LastLineFlow;
+            maze[i][u] += LastLineFlow;
+            // 返回此增广路径流量
+            return LastLineFlow;
+        }
+    }
+    // 若未找到增广路径则返回0
+    return 0;
+}
+
+int main(){
+    //fre();
+    scanf("%d", &t);
+    for (int Case = 1; Case <= t; ++Case) {
+        mem(vis, 0);
+        mem(maze, 0);
+        scanf("%d%d", &n, &m);
+        st = 1, en = n;
+        while (m--) {
+            scanf("%d%d%d", &x, &y, &c);
+            // 这道题有重边所以写为+=,=会WA
+            maze[x][y] += c;
+        }
+        ans = 0;
+        // 不断寻找增广路径
+        while (flow = dfs(st, INF)) {
+            // 增加流量
+            ans += flow;
+            mem(vis, 0);
+        }
+        printf("Case %d: %d\n", Case, ans);
+    }
+    return 0;
+}            </code>
+        </pre>
+				<h2>AC代码:</h2>
+				<pre>
+    <code>// Dinic算法
+#include &lt;bits/stdc++.h>
+using namespace std;
+#define mem(a,b) memset(a,b,sizeof(a))
+#define pb push_back
+#define mp make_pair
+typedef long long ll;
+typedef unsigned long long ull;
+typedef pair&lt;int,int> P;
+const int INF = 0x3f3f3f3f;
+const int maxn = 2e3;
+const int mod = 1e9+7;
+const double eps = 1e-8;
+const double pi = asin(1.0)*2;
+const double e = 2.718281828459;
+void fre() {
+    freopen("in.txt", "r", stdin);
+    //freopen("out.txt", "w", stdout);
+}
+
+int t;
+int n, m;
+// 最大流结果
+int ans;
+// 起点终点
+int st, en;
+// 残留网
+int c[maxn][maxn];
+// 分层图深度
+int depth[maxn];
+
+// bfs分层图
+int DinicBfs() {
+    queue<int> que;
+    mem(depth, -1);
+    depth[st] = 0;
+    que.push(st);
+    while (!que.empty()) {
+        int temp = que.front();
+        que.pop();
+        for (int i = 1; i <= n; ++i) {
+            if (c[temp][i] && depth[i] < 0) {
+                depth[i] = depth[temp] + 1;
+                que.push(i);
+            }
+        }
+    }
+    if (depth[en] > 0) {
+        return 1;
+    }
+    return 0;
+}
+
+// dfs寻找增广路径
+int DinicDfs(int point, int MaxFlow) {
+    if (point == en) {
+        return MaxFlow;
+    }
+    int FindFlow;
+    for (int i = 1; i <= n; ++i) {
+        if (c[point][i] && depth[i] == depth[point] + 1 && (FindFlow = DinicDfs(i, min(MaxFlow, c[point][i])))) {
+            c[point][i] -= FindFlow;
+            c[i][point] += FindFlow;
+            return FindFlow;
+        }
+    }
+    return 0;
+}
+
+int main(){
+    //fre();
+    scanf("%d", &t);
+    for (int Case = 1; Case <= t; ++Case) {
+        mem(c, 0);
+        scanf("%d%d", &n, &m);
+        st = 1, en = n;
+        int input_u, input_v, input_c;
+        while (m--) {
+            scanf("%d%d%d", &input_u, &input_v, &input_c);
+            // 有重边所以一定要用"+="
+            c[input_u][input_v] += input_c;
+        }
+        // Dinic主过程
+        ans = 0;
+        while (DinicBfs()) {
+            ans += DinicDfs(st, INF);
+        }
+        // 输出结果
+        printf("Case %d: %d\n", Case, ans);
+    }
+    return 0;
+}
+            </code>
+        </pre>
+	</body>
+
+</html>
